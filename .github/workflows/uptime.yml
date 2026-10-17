@@ -1,0 +1,23 @@
+# Плановая проверка работоспособности: при сбое задача падает, GitHub шлёт письмо владельцу репозитория (алерт).
+name: Uptime
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    env:
+      APP_URL: ${{ vars.APP_URL }}
+    steps:
+      - name: Проверка /api/ready
+        run: |
+          if [ -z "$APP_URL" ]; then echo "::notice::APP_URL не задан, проверка пропущена"; exit 0; fi
+          code=$(curl -s -m 15 -o /tmp/ready.json -w '%{http_code}' "$APP_URL/api/ready" || echo 000)
+          cat /tmp/ready.json 2>/dev/null || true
+          if [ "$code" != "200" ]; then echo "::error::$APP_URL/api/ready вернул HTTP $code"; exit 1; fi

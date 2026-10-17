@@ -1,0 +1,16 @@
+# Запуск: cp .env.example .env  (задайте JWT_SECRET)  ->  docker compose up -d --build
+services:
+  freshkeep:
+    build: .
+    ports: ["5173:5173"]
+    env_file: .env            # секреты берутся из .env (он в .gitignore), в образ не попадают
+    environment:
+      DB_PATH: /app/data/freshkeep.db
+      LOG_FILE: /app/logs/api.log
+    volumes:
+      - freshkeep-data:/app/data
+      - freshkeep-logs:/app/logs
+    restart: unless-stopped
+volumes:
+  freshkeep-data:
+  freshkeep-logs:

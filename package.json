@@ -1,0 +1,23 @@
+{
+  "name": "freshkeep",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FreshKeep: веб-приложение + REST API (ДЗ 6: CI/CD, OAuth2, аналитика, мониторинг)",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev:oauth": "node scripts/mock-oauth.js",
+    "lint": "node scripts/lint.js",
+    "format": "node scripts/lint.js --fix",
+    "format:check": "node scripts/lint.js --format",
+    "test": "node --test server/test/*.test.js web/test/*.test.js scripts/test/*.test.js",
+    "build": "node scripts/build.js",
+    "audit": "npm audit --omit=dev --audit-level=low",
+    "analyze-logs": "node scripts/analyze-logs.js",
+    "bench": "node scripts/bench.js",
+    "ci": "npm run lint && npm run format:check && npm test && npm run build"
+  },
+  "engines": {
+    "node": ">=22.5"
+  }
+}
