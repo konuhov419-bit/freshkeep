@@ -4,7 +4,7 @@
 
 ```bash
 npm start        # http://localhost:5173  (Node.js 22.5+, npm install не нужен)
-npm test         # 70 тестов
+npm test         # 73 теста
 npm run ci       # lint + format:check + test + build — как в CI
 npm run dev:oauth  # демо OAuth с поддельным провайдером, без реальных ключей
 npm run analyze-logs -- logs/api.log
@@ -21,4 +21,4 @@ npm run analyze-logs -- logs/api.log
 `web/` фронтенд · `server/` API · `migrations/` схема БД · `scripts/` линтер, сборка, бенчмарк, анализ логов · `.github/` workflows · `supabase/` схема PostgreSQL · `Dockerfile`, `railway.json` · `screenshots/`
 
 ## Деплой
-Пуш в `main` → GitHub Actions → Railway. Настройка (секреты, том для БД, переменные) — раздел 1 integration_documentation.md. Ссылка на работающее приложение: _указать после деплоя_.
+Пуш в `main` → GitHub Actions → Railway. Настройка (секреты, том для БД, переменные) — раздел 1 integration_documentation.md. Работающее приложение: https://freshkeep-production.up.railway.app (проверка готовности: https://freshkeep-production.up.railway.app/api/ready).

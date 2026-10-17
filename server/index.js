@@ -1,4 +1,5 @@
 // Точка входа: npm start -> http://localhost:5173 (API + фронтенд)
+import { normalizePublicUrl } from './config.js';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
@@ -21,6 +22,11 @@ if (!env.JWT_SECRET || env.JWT_SECRET.length < 32) {
   console.error('JWT_SECRET не задан или короче 32 символов. См. .env.example');
   process.exit(1);
 }
+let publicUrl;
+try { publicUrl = normalizePublicUrl(env.PUBLIC_URL); } catch (e) {
+  console.error(e.message);
+  process.exit(1);
+}
 const abs = (p) => (p.startsWith('/') ? p : `${ROOT}${p}`);
 const pkgVersion = JSON.parse(readFileSync(`${ROOT}package.json`, 'utf8')).version;
 const commit = (env.RAILWAY_GIT_COMMIT_SHA || env.GITHUB_SHA || env.GIT_SHA || '').slice(0, 7);
@@ -37,13 +43,13 @@ const oauth = {
   yandex: { clientId: env.YANDEX_CLIENT_ID, clientSecret: env.YANDEX_CLIENT_SECRET },
 };
 const enabled = Object.entries(oauth).filter(([, c]) => c.clientId && c.clientSecret).map(([id]) => id);
-if (enabled.length && !env.PUBLIC_URL) log('warn', 'PUBLIC_URL не задан: redirect_uri OAuth строится из заголовка Host. Задайте PUBLIC_URL в продакшене', { event: 'config.warning' });
+if (enabled.length && !publicUrl) log('warn', 'PUBLIC_URL не задан: redirect_uri OAuth строится из заголовка Host. Задайте PUBLIC_URL в продакшене', { event: 'config.warning' });
 
 const server = createApp({
   db: openDb(abs(env.DB_PATH ?? 'data/freshkeep.db')),
   secret: env.JWT_SECRET,
   origin: env.ALLOWED_ORIGIN ?? '',
-  publicUrl: env.PUBLIC_URL ?? '',
+  publicUrl,
   trustProxy: env.TRUST_PROXY === '1',
   metrikaId: env.METRIKA_ID ?? '',
   metricsToken: env.METRICS_TOKEN ?? '',

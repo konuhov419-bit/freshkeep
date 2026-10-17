@@ -6,12 +6,14 @@
 
 ## 1. CI/CD (GitHub Actions + Railway)
 
+Рабочее приложение: **https://freshkeep-production.up.railway.app** (проверка: `/api/ready`). Фактическая схема развёртывания: Railway подключён к GitHub-репозиторию и сам выкладывает каждый пуш в `main`; GitHub Actions выполняют проверки качества, а шаг деплоя через `RAILWAY_TOKEN` остаётся запасным вариантом (без токена пропускается).
+
 Файлы: `.github/workflows/ci.yml` (основной), `uptime.yml`, `codeql.yml`, `.github/dependabot.yml`, `Dockerfile`, `railway.json`.
 
 ```
 push / pull request в main
  ├─ quality  : npm run lint, npm run format:check
- ├─ test     : npm test (70 тестов, node:test)
+ ├─ test     : npm test (73 теста, node:test)
  ├─ audit    : npm audit --omit=dev
  └─ build    : npm run build + docker build  (после трёх выше)
         └─ deploy (только push в main): railway up → smoke-тест GET $APP_URL/api/ready
@@ -27,8 +29,9 @@ push / pull request в main
 
 1. Создайте репозиторий на GitHub и выполните `git push` в ветку `main`.
 2. Railway → New Project → Deploy from GitHub (или пустой сервис `freshkeep`). Добавьте **Volume** с точкой монтирования `/app/data` (в нём лежит SQLite). Включите `Generate Domain`.
-3. Переменные сервиса Railway: `JWT_SECRET` (≥32 символов), `PUBLIC_URL` (адрес сервиса), `TRUST_PROXY=1`, `LOG_FILE=-` (логи в stdout, Railway хранит и ищет их сам), по желанию `METRIKA_ID`, `GOOGLE_*`, `YANDEX_*`, `METRICS_TOKEN`.
-4. В Railway создайте Project Token (Settings → Tokens). В GitHub: Settings → Secrets and variables → Actions → секрет `RAILWAY_TOKEN`; переменные `APP_URL` (адрес сервиса) и при необходимости `RAILWAY_SERVICE`.
+3. Переменные сервиса Railway (`PUBLIC_URL` с протоколом `https://` и без `/` на конце; при неверном значении сервер сразу пишет понятную ошибку): `JWT_SECRET` (≥32 символов), `PUBLIC_URL` (адрес сервиса), `TRUST_PROXY=1`, `LOG_FILE=-` (логи в stdout, Railway хранит и ищет их сам), по желанию `METRIKA_ID`, `GOOGLE_*`, `YANDEX_*`, `METRICS_TOKEN`.
+   Если Railway подключает том с правами root, а приложение работает от пользователя `node`, SQLite не может создать файл («unable to open database file»). Это случилось при первом деплое; обходное решение: переменная `RAILWAY_RUN_UID=0`.
+4. (Необязательно, для запасного деплоя из Actions) В Railway создайте Project Token (Settings → Tokens). В GitHub: Settings → Secrets and variables → Actions → секрет `RAILWAY_TOKEN`; переменные `APP_URL` (адрес сервиса) и при необходимости `RAILWAY_SERVICE`.
 5. Тестовый коммит: `git commit --allow-empty -m "ci: проверка пайплайна" && git push` → вкладка Actions: все задачи зелёные, шаг smoke-теста печатает ответ `/api/ready`.
 
 ### Пример прогона локально
@@ -153,8 +156,8 @@ AI помогал составить каталог событий: промпт
 
 Проверено в среде разработки: 70 автотестов, `lint`, `format:check`, `build`, `npm audit`, разбор YAML-файлов, сквозной сценарий в браузере (OAuth на поддельном провайдере, согласие и события Метрики, отзыв токена, 0 нарушений CSP).
 
-**Не проверено и требует ваших действий** (из изолированной среды доступа к этим сервисам нет):
-- реальный запуск GitHub Actions и деплой на Railway (нужен репозиторий, секрет `RAILWAY_TOKEN`, переменные — раздел 1);
+**Не проверено или зависит от действий владельца:**
+- шаг деплоя из Actions через `RAILWAY_TOKEN` (деплой фактически выполняет Railway по пушу в `main`);
 - реальные `Client ID/Secret` Google и Яндекс (разделы 2) и счётчик Метрики (`METRIKA_ID`);
 - монитор UptimeRobot (раздел 5);
 - `Dockerfile` не собирался локально (в среде нет Docker-демона), его соберёт шаг `build` в CI.

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="112" fill="#1f9d63"/>
+  <!-- контейнер для хранения продуктов -->
+  <rect x="116" y="196" width="280" height="206" rx="38" fill="#ffffff"/>
+  <rect x="96" y="160" width="320" height="54" rx="27" fill="#d7f3e3"/>
+  <!-- галочка свежести -->
+  <path d="M190 300 l50 50 l86 -96" fill="none" stroke="#1f9d63" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- листок -->
+  <path d="M256 150 C256 96 292 62 346 58 C348 112 312 148 256 150 Z" fill="#ffd54a"/>
+  <path d="M256 150 C262 120 280 98 306 82" fill="none" stroke="#1f9d63" stroke-width="8" stroke-linecap="round"/>
+</svg>
