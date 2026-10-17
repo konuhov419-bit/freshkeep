@@ -1,0 +1,28 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FreshKeep — Концепция 3: Корпоративная дашборд</title>
+<style>
+*{box-sizing:border-box;margin:0}body{background:#dfe5ee;display:flex;justify-content:center;padding:20px;font-family:Arial,Helvetica,sans-serif;color:#10233f}
+.phone{width:390px;height:780px;background:#f5f7fb;border-radius:20px;position:relative;box-shadow:0 8px 30px #0003;overflow:hidden}
+header{background:#0b3a75;color:#fff;padding:18px 18px 22px}header h1{font-size:18px}header p{font-size:12px;opacity:.8;margin-top:2px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 14px;margin-top:-14px}
+.kpi{background:#fff;border-radius:8px;padding:10px;box-shadow:0 2px 6px #0001;text-align:center}.kpi b{font-size:22px;display:block}.kpi span{font-size:11px;color:#667}
+.r{color:#c62828}.y{color:#e69100}.g{color:#2e7d32}
+.panel{margin:14px;background:#fff;border-radius:8px;box-shadow:0 2px 6px #0001}
+.panel h2{font-size:13px;padding:12px 14px;border-bottom:1px solid #e5e9f0;color:#0b3a75}
+table{width:100%;border-collapse:collapse;font-size:12px}th{text-align:left;color:#667;font-weight:600;padding:8px 14px}td{padding:10px 14px;border-top:1px solid #eef1f6}
+.st{padding:3px 8px;border-radius:4px;font-size:11px;color:#fff}
+.bgr{background:#c62828}.bgy{background:#e69100}.bgg{background:#2e7d32}
+.tb{display:flex;gap:8px;margin:0 14px}.tb div{flex:1;background:#0b3a75;color:#fff;text-align:center;padding:12px;border-radius:6px;font-size:13px}.tb .o{background:#fff;color:#0b3a75;border:1px solid #0b3a75}
+nav{position:absolute;left:0;right:0;bottom:0;height:58px;background:#fff;border-top:1px solid #dde3ec;display:flex;justify-content:space-around;align-items:center;font-size:12px;color:#667}nav .a{color:#0b3a75;font-weight:700}
+</style></head><body><div class="phone">
+<header><h1>FreshKeep · Инвентарь</h1><p>Семья Ивановых · обновлено 13:05</p></header>
+<div class="kpis"><div class="kpi"><b class="r">3</b><span>Просрочено/сегодня</span></div><div class="kpi"><b class="y">5</b><span>Истекает ≤ 3 дн.</span></div><div class="kpi"><b class="g">16</b><span>В норме</span></div></div>
+<div class="panel" style="margin-top:16px"><h2>Требуют внимания</h2>
+<table><tr><th>Продукт</th><th>Кол-во</th><th>Статус</th></tr>
+<tr><td>Молоко 3.2%</td><td>1 л</td><td><span class="st bgr">Сегодня</span></td></tr>
+<tr><td>Йогурт</td><td>2 шт</td><td><span class="st bgy">2 дня</span></td></tr>
+<tr><td>Куриное филе</td><td>600 г</td><td><span class="st bgy">3 дня</span></td></tr>
+<tr><td>Сыр Гауда</td><td>250 г</td><td><span class="st bgg">12 дней</span></td></tr></table></div>
+<div class="tb"><div>+ Добавить продукт</div><div class="o">Сканировать</div></div>
+<nav><span class="a">Инвентарь</span><span>Рецепты</span><span>Покупки</span><span>Аналитика</span></nav>
+</div></body></html>

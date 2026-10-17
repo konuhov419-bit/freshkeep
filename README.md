@@ -16,6 +16,7 @@ npm run analyze-logs -- logs/api.log
 - [security_audit.md](security_audit.md): уязвимости, исправления, OWASP Top 10, рекомендации
 - [docs/log_analysis_prompts.md](docs/log_analysis_prompts.md): промпты для анализа логов
 - [backend_documentation.md](backend_documentation.md): API и архитектура (ДЗ 5)
+- [homework/README.md](homework/README.md): отчёты и технические задания по ДЗ 1–5
 
 ## Структура
 `web/` фронтенд · `server/` API · `migrations/` схема БД · `scripts/` линтер, сборка, бенчмарк, анализ логов · `.github/` workflows · `supabase/` схема PostgreSQL · `Dockerfile`, `railway.json` · `screenshots/`
