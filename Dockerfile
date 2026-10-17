@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:25-alpine
 ARG GIT_SHA=dev
 WORKDIR /app
 COPY package.json ./
